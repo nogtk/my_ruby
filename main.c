@@ -34,6 +34,7 @@ main(int argc, char **argv)
 #ifdef HAVE_LOCALE_H
     setlocale(LC_CTYPE, "");
 #endif
+//    fprintf(stdout, "%s\n", "Hello");
 
     ruby_sysinit(&argc, &argv);
     {

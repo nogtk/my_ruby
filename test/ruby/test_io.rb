@@ -3865,4 +3865,8 @@ __END__
       assert_raise(TypeError) {Marshal.dump(w)}
     }
   end
+
+  def test_hello
+    assert_in_out_err([], "hello", ["Hello"])
+  end
 end

@@ -3960,6 +3960,12 @@ rb_Hash(VALUE val)
     return tmp;
 }
 
+VALUE
+rb_f_hello()
+{
+    fprintf(stdout, "%s\n", "Hello");
+}
+
 /*
  *  call-seq:
  *     Hash(arg)    -> hash
@@ -4304,6 +4310,8 @@ InitVM_Object(void)
     rb_define_global_function("String", rb_f_string, 1);
     rb_define_global_function("Array", rb_f_array, 1);
     rb_define_global_function("Hash", rb_f_hash, 1);
+
+    rb_define_global_function("hello", rb_f_hello, 0);
 
     rb_cNilClass = rb_define_class("NilClass", rb_cObject);
     rb_define_method(rb_cNilClass, "to_i", nil_to_i, 0);
