@@ -518,6 +518,24 @@ proc_s_last_status(VALUE mod)
     return rb_last_status_get();
 }
 
+static VALUE
+proc_exist(VALUE self, VALUE pid)
+{
+    pid_t p = NUM2PIDT(pid);
+    if(kill(p, 9) == 0) {
+        printf(" %d をころしますた。\n", p);
+        return Qtrue;
+    }else{
+        if(errno == ESRCH) {
+            printf(" %d なんてぷろせすはなかった‥\n", p);
+            return Qfalse;
+        } else if(errno == EPERM) {
+            printf(" %d を倒すにはお前には100年早い\n", p);
+            return Qtrue;
+        }
+    }
+}
+
 void
 rb_last_status_set(int status, rb_pid_t pid)
 {
@@ -8089,6 +8107,8 @@ InitVM_process(void)
     rb_define_singleton_method(rb_mProcess, "exit", rb_f_exit, -1);
     rb_define_singleton_method(rb_mProcess, "abort", rb_f_abort, -1);
     rb_define_singleton_method(rb_mProcess, "last_status", proc_s_last_status, 0);
+
+    rb_define_singleton_method(rb_mProcess, "exist?", proc_exist, 1);
 
     rb_define_module_function(rb_mProcess, "kill", rb_f_kill, -1); /* in signal.c */
     rb_define_module_function(rb_mProcess, "wait", proc_wait, -1);

@@ -393,6 +393,14 @@ class TestProcess < Test::Unit::TestCase
     end
   end
 
+  def test_process_exist
+    pid = spawn(RUBY, in: :close) # create a nonexistent PID
+    Process.wait pid
+
+    assert_equal(Process.exist?(pid), false)
+    assert_equal(Process.exist?(Process.pid), true)
+  end
+
   def test_execopts_preserve_env_on_exec_failure
     with_tmpchdir {|d|
       write_file 's', <<-"End"
